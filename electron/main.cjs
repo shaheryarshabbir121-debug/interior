@@ -1,4 +1,4 @@
-const { app, BrowserWindow, shell } = require("electron");
+const { app, BrowserWindow, shell, session } = require("electron");
 const path = require("path");
 
 function createWindow() {
@@ -15,9 +15,24 @@ function createWindow() {
     autoHideMenuBar: true,
   });
 
+  // Grant microphone permission automatically
+  session.defaultSession.setPermissionRequestHandler((webContents, permission, callback) => {
+    if (permission === "media" || permission === "microphone") {
+      callback(true);
+    } else {
+      callback(false);
+    }
+  });
+
+  session.defaultSession.setPermissionCheckHandler((webContents, permission) => {
+    if (permission === "media" || permission === "microphone") {
+      return true;
+    }
+    return false;
+  });
+
   win.loadFile(path.join(__dirname, "../dist/index.html"));
 
-  // Open external links in default browser
   win.webContents.setWindowOpenHandler(({ url }) => {
     shell.openExternal(url);
     return { action: "deny" };

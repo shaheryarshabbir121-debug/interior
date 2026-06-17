@@ -1,0 +1,49 @@
+name: Build Windows App & Release
+
+on:
+  push:
+    branches: [claude/eloquent-shannon-lskpfx]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build Vite app
+        run: npm run build
+
+      - name: Build Windows ZIP
+        run: |
+          CSC_IDENTITY_AUTO_DISCOVERY=false npx electron-builder --win zip --x64
+        env:
+          WIN_CSC_LINK: ""
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v1.0.${{ github.run_number }}
+          name: "Pakistan Minutes Assistant v1.0.${{ github.run_number }}"
+          body: |
+            ## Pakistan Meeting Minutes Assistant — Windows Desktop App
+
+            ### How to install:
+            1. Download the ZIP below
+            2. Extract it (right-click → Extract All)
+            3. Open the folder and double-click **Pakistan Minutes Assistant.exe**
+            4. Paste your Anthropic API key in the yellow box and click Save
+
+            > Windows may show "Windows protected your PC" — click **More info → Run anyway**
+          files: release/*.zip
+          draft: false
+          prerelease: false

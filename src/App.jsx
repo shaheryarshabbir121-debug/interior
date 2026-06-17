@@ -286,13 +286,15 @@ export default function App() {
   const [transcript, setTranscript] = useState("");
 
   // recording state
-  const [recState, setRecState] = useState("idle"); // idle | requesting | recording | stopped
+  const [recState, setRecState] = useState("idle"); // idle | requesting | recording | stopped | transcribing
   const [recSeconds, setRecSeconds] = useState(0);
   const [liveText, setLiveText] = useState("");
   const [finalText, setFinalText] = useState("");
   const [recError, setRecError] = useState("");
   const [audioURL, setAudioURL] = useState(null);
   const [cleaning, setCleaning] = useState(false);
+  const [srFailed, setSrFailed] = useState(false);
+  const audioBlobRef = useRef(null);
 
   // minutes state
   const [minutes, setMinutes] = useState(null);
@@ -333,7 +335,11 @@ export default function App() {
       setLiveText(interim);
     };
     r.onerror = (e) => {
-      if (e.error !== "no-speech" && e.error !== "aborted") setRecError("Microphone error: " + e.error);
+      if (e.error === "network") {
+        setSrFailed(true); // will transcribe via API after stop
+      } else if (e.error !== "no-speech" && e.error !== "aborted") {
+        setRecError("Microphone error: " + e.error);
+      }
     };
     r.onend = () => {
       if (mediaRecorderRef.current?.state === "recording") {
@@ -356,6 +362,7 @@ export default function App() {
       mr.ondataavailable = e => { if (e.data.size > 0) audioChunksRef.current.push(e.data); };
       mr.onstop = () => {
         const blob = new Blob(audioChunksRef.current, { type: "audio/webm" });
+        audioBlobRef.current = blob;
         setAudioURL(URL.createObjectURL(blob));
         stream.getTracks().forEach(t => t.stop());
       };
@@ -380,6 +387,50 @@ export default function App() {
     if (mediaRecorderRef.current?.state === "recording") mediaRecorderRef.current.stop();
     setLiveText("");
     setRecState("stopped");
+    // If Web Speech API failed (desktop app), auto-transcribe via Anthropic
+    setTimeout(() => {
+      if (srFailed && audioBlobRef.current && !finalTextRef.current.trim()) {
+        transcribeAudioViaAPI(audioBlobRef.current);
+      }
+    }, 600);
+  }
+
+  // ── Transcribe audio blob via Anthropic (fallback for desktop app) ─────────
+  async function transcribeAudioViaAPI(blob) {
+    if (!apiKey) { setRecError("No API key — please enter your Anthropic key and record again."); return; }
+    setRecState("transcribing");
+    try {
+      const base64 = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result.split(",")[1]);
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+      });
+      const res = await fetch("https://api.anthropic.com/v1/messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "x-api-key": apiKey, "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
+        body: JSON.stringify({
+          model: "claude-haiku-4-5-20251001",
+          max_tokens: 4096,
+          messages: [{
+            role: "user",
+            content: [
+              { type: "text", text: "This is a meeting recording. Please transcribe everything said, keeping the original language (Urdu, Roman Urdu, English, or mixed). Return ONLY the transcript text, no explanations." },
+              { type: "document", source: { type: "base64", media_type: "audio/webm", data: base64 } }
+            ]
+          }]
+        })
+      });
+      const data = await res.json();
+      if (data.error) throw new Error(data.error.message);
+      const text = data.content?.map(b => b.text || "").join("").trim();
+      if (text) setFinalText(text);
+      else setRecError("Could not transcribe audio — please use the Paste tab and type the transcript manually.");
+    } catch (e) {
+      setRecError("Auto-transcription failed: " + e.message + ". Download the audio and paste transcript manually.");
+    } finally {
+      setRecState("stopped");
+    }
   }
 
   // ── Use transcript from recording ─────────────────────────────────────────
@@ -410,7 +461,8 @@ export default function App() {
   // ── Reset recording ────────────────────────────────────────────────────────
   function resetRecording() {
     setRecState("idle"); setRecSeconds(0); setLiveText(""); setFinalText("");
-    finalTextRef.current = ""; setAudioURL(null); setRecError("");
+    finalTextRef.current = ""; setAudioURL(null); setRecError(""); setSrFailed(false);
+    audioBlobRef.current = null;
   }
 
   // ── Generate Minutes ───────────────────────────────────────────────────────
@@ -523,6 +575,15 @@ export default function App() {
               {recState === "requesting" && (
                 <div style={{ textAlign: "center", padding: "32px 20px" }}>
                   <Spinner size={32} color="#1a3a1a" /><div style={{ marginTop: 14, fontSize: 13, color: "#5a7a5a" }}>Requesting microphone access…</div>
+                </div>
+              )}
+
+              {/* Transcribing via API */}
+              {recState === "transcribing" && (
+                <div style={{ textAlign: "center", padding: "32px 20px" }}>
+                  <Spinner size={32} color="#1a3a1a" />
+                  <div style={{ marginTop: 14, fontSize: 13, color: "#1a2e1a", fontWeight: 600 }}>Transcribing your recording…</div>
+                  <div style={{ marginTop: 6, fontSize: 12, color: "#5a7a5a" }}>Sending audio to AI for transcription</div>
                 </div>
               )}
 

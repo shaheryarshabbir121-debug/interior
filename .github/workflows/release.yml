@@ -22,7 +22,10 @@ jobs:
 
       - name: Build Vite app
         run: npm run build
-
+      - name: Install Wine
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y wine wine32 wine64
       - name: Build Windows ZIP
         run: |
           CSC_IDENTITY_AUTO_DISCOVERY=false npx electron-builder --win zip --x64

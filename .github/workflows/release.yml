@@ -9,7 +9,7 @@ permissions:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
 
@@ -22,15 +22,11 @@ jobs:
 
       - name: Build Vite app
         run: npm run build
-      - name: Install Wine
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y wine wine32 wine64
-      - name: Build Windows ZIP
-        run: |
-          CSC_IDENTITY_AUTO_DISCOVERY=false npx electron-builder --win zip --x64
+
+      - name: Build Windows installer
+        run: npx electron-builder --win nsis --x64
         env:
-          WIN_CSC_LINK: ""
+          CSC_IDENTITY_AUTO_DISCOVERY: false
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
@@ -41,12 +37,14 @@ jobs:
             ## Pakistan Meeting Minutes Assistant — Windows Desktop App
 
             ### How to install:
-            1. Download the ZIP below
-            2. Extract it (right-click → Extract All)
-            3. Open the folder and double-click **Pakistan Minutes Assistant.exe**
+            1. Download **Pakistan-Minutes-Assistant-Setup.exe** below
+            2. Double-click it and follow the installer
+            3. Launch the app from your Desktop or Start Menu
             4. Paste your Anthropic API key in the yellow box and click Save
 
-            > Windows may show "Windows protected your PC" — click **More info → Run anyway**
-          files: release/*.zip
+            > Windows may show a SmartScreen warning — click **More info → Run anyway**
+          files: |
+            release/*.exe
+            release/*.zip
           draft: false
           prerelease: false

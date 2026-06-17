@@ -395,42 +395,10 @@ export default function App() {
     }, 600);
   }
 
-  // ── Transcribe audio blob via Anthropic (fallback for desktop app) ─────────
+  // ── Transcribe audio blob via API (fallback for desktop app) ─────────────
   async function transcribeAudioViaAPI(blob) {
-    if (!apiKey) { setRecError("No API key — please enter your Anthropic key and record again."); return; }
-    setRecState("transcribing");
-    try {
-      const base64 = await new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result.split(",")[1]);
-        reader.onerror = reject;
-        reader.readAsDataURL(blob);
-      });
-      const res = await fetch("https://api.anthropic.com/v1/messages", {
-        method: "POST",
-        headers: { "Content-Type": "application/json", "x-api-key": apiKey, "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
-        body: JSON.stringify({
-          model: "claude-haiku-4-5-20251001",
-          max_tokens: 4096,
-          messages: [{
-            role: "user",
-            content: [
-              { type: "text", text: "This is a meeting recording. Please transcribe everything said, keeping the original language (Urdu, Roman Urdu, English, or mixed). Return ONLY the transcript text, no explanations." },
-              { type: "document", source: { type: "base64", media_type: "audio/webm", data: base64 } }
-            ]
-          }]
-        })
-      });
-      const data = await res.json();
-      if (data.error) throw new Error(data.error.message);
-      const text = data.content?.map(b => b.text || "").join("").trim();
-      if (text) setFinalText(text);
-      else setRecError("Could not transcribe audio — please use the Paste tab and type the transcript manually.");
-    } catch (e) {
-      setRecError("Auto-transcription failed: " + e.message + ". Download the audio and paste transcript manually.");
-    } finally {
-      setRecState("stopped");
-    }
+    setRecState("stopped");
+    setRecError("Live transcription is not available in the desktop app. Your audio has been saved — download it and paste the transcript in the 'Paste / Type Transcript' tab.");
   }
 
   // ── Use transcript from recording ─────────────────────────────────────────

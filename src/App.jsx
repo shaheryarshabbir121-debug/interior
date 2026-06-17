@@ -397,7 +397,7 @@ export default function App() {
       const res = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
         headers: { "Content-Type": "application/json", "x-api-key": apiKey, "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
-        body: JSON.stringify({ model: "claude-sonnet-4-20250514", max_tokens: 1000, system: CLEAN_PROMPT, messages: [{ role: "user", content: raw }] })
+        body: JSON.stringify({ model: "claude-haiku-4-5-20251001", max_tokens: 1000, system: CLEAN_PROMPT, messages: [{ role: "user", content: raw }] })
       });
       const data = await res.json();
       const cleaned = data.content?.map(b => b.text || "").join("").trim() || raw;
@@ -426,7 +426,7 @@ export default function App() {
       const res = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
         headers: { "Content-Type": "application/json", "x-api-key": apiKey, "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
-        body: JSON.stringify({ model: "claude-sonnet-4-20250514", max_tokens: 2000, system: SYSTEM_PROMPT, messages: [{ role: "user", content: `Process this meeting transcript and return the JSON:\n\n${t}` }] })
+        body: JSON.stringify({ model: "claude-haiku-4-5-20251001", max_tokens: 2000, system: SYSTEM_PROMPT, messages: [{ role: "user", content: `Process this meeting transcript and return the JSON:\n\n${t}` }] })
       });
       clearInterval(intervalRef.current);
       const data = await res.json();

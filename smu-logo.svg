@@ -1,0 +1,138 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="500" height="500">
+  <defs>
+    <!-- Metallic silver gradient -->
+    <linearGradient id="silver" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#e8e8e8"/>
+      <stop offset="40%"  stop-color="#c0c0c0"/>
+      <stop offset="60%"  stop-color="#a8a8a8"/>
+      <stop offset="100%" stop-color="#d4d4d4"/>
+    </linearGradient>
+    <!-- Deep forest green gradient for crest body -->
+    <linearGradient id="green" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#1e3d2f"/>
+      <stop offset="100%" stop-color="#0d2318"/>
+    </linearGradient>
+    <!-- Path for circular text -->
+    <path id="topArc"
+      d="M 250,250
+         m -170,0
+         a 170,170 0 1,1 340,0"
+      fill="none"/>
+    <path id="bottomArc"
+      d="M 250,250
+         m -170,0
+         a 170,170 0 0,0 340,0"
+      fill="none"/>
+  </defs>
+
+  <!-- White background -->
+  <rect width="500" height="500" fill="#ffffff"/>
+
+  <!-- Outer ring / seal border -->
+  <circle cx="250" cy="250" r="220" fill="none" stroke="url(#silver)" stroke-width="6"/>
+  <circle cx="250" cy="250" r="210" fill="none" stroke="#1e3d2f"     stroke-width="2"/>
+
+  <!-- Main crest body -->
+  <circle cx="250" cy="250" r="195" fill="url(#green)"/>
+
+  <!-- Inner ring accent -->
+  <circle cx="250" cy="250" r="140" fill="none" stroke="url(#silver)" stroke-width="2.5"/>
+
+  <!-- ============================================================
+       Interlocking SMU Monogram — heavy-weight serif geometry
+       ============================================================ -->
+
+  <!-- === S === (left-center, slightly overlapping M) -->
+  <g transform="translate(250,252)">
+    <!-- S constructed from two stacked arcs + serifs -->
+    <!-- Top arc of S -->
+    <path d="
+      M -52,-44
+      Q -52,-70 -30,-70
+      L  10,-70
+      Q  30,-70  30,-52
+      Q  30,-34   8,-34
+      L -16,-34
+      Q -44,-34 -44,-12
+      Q -44,  8 -16,  8
+      L  22,  8
+      Q  44,  8  44, 28
+      Q  44, 52  18, 52
+      L -18, 52
+      Q -44, 52 -44, 30
+    " fill="none" stroke="url(#silver)" stroke-width="16"
+       stroke-linecap="square" stroke-linejoin="miter"/>
+    <!-- Serif caps on S -->
+    <line x1="-58" y1="-70" x2="-46" y2="-70" stroke="url(#silver)" stroke-width="5"/>
+    <line x1="-58" y1=" 30" x2="-30" y2=" 30" stroke="url(#silver)" stroke-width="5"/>
+  </g>
+
+  <!-- === M === (center, boldest element) -->
+  <g transform="translate(250,252)">
+    <path d="
+      M -38,-68
+      L -38, 56
+      M -38,-68
+      L   0,-14
+      L  38,-68
+      M  38,-68
+      L  38, 56
+    " fill="none" stroke="url(#silver)" stroke-width="16"
+       stroke-linecap="square" stroke-linejoin="miter"/>
+    <!-- M serifs -->
+    <line x1="-50" y1="-68" x2="-26" y2="-68" stroke="url(#silver)" stroke-width="5"/>
+    <line x1="-50" y1=" 56" x2="-26" y2=" 56" stroke="url(#silver)" stroke-width="5"/>
+    <line x1=" 26" y1="-68" x2=" 50" y2="-68" stroke="url(#silver)" stroke-width="5"/>
+    <line x1=" 26" y1=" 56" x2=" 50" y2=" 56" stroke="url(#silver)" stroke-width="5"/>
+  </g>
+
+  <!-- === U === (right-center, slightly overlapping M) -->
+  <g transform="translate(250,252)">
+    <path d="
+      M  50,-68
+      L  50, 12
+      Q  50, 56  90, 56
+      Q 130, 56 130, 12
+      L 130,-68
+    " fill="none" stroke="url(#silver)" stroke-width="16"
+       stroke-linecap="square" stroke-linejoin="miter"/>
+    <!-- U serifs -->
+    <line x1="38"  y1="-68" x2="62"  y2="-68" stroke="url(#silver)" stroke-width="5"/>
+    <line x1="118" y1="-68" x2="142" y2="-68" stroke="url(#silver)" stroke-width="5"/>
+    <line x1="72"  y1=" 56" x2="108" y2=" 56" stroke="url(#silver)" stroke-width="5"/>
+  </g>
+
+  <!-- Thin horizontal divider line under monogram -->
+  <line x1="150" y1="320" x2="350" y2="320" stroke="url(#silver)" stroke-width="1.5"/>
+
+  <!-- ============================================================
+       Circular text — "STRATEGIC MANAGEMENT UNIT"
+       ============================================================ -->
+
+  <!-- Top arc text -->
+  <text font-family="Georgia, 'Times New Roman', serif"
+        font-size="17" font-weight="700"
+        fill="url(#silver)" letter-spacing="3.5">
+    <textPath href="#topArc" startOffset="4%">
+      STRATEGIC MANAGEMENT UNIT
+    </textPath>
+  </text>
+
+  <!-- Bottom arc — decorative dots / rule -->
+  <text font-family="Georgia, 'Times New Roman', serif"
+        font-size="14" font-weight="400"
+        fill="url(#silver)" letter-spacing="8">
+    <textPath href="#bottomArc" startOffset="10%">
+      ✦ · · · · · · · · · · · ✦
+    </textPath>
+  </text>
+
+  <!-- Small crown / crest ornament above monogram -->
+  <g transform="translate(250,120)" fill="url(#silver)">
+    <polygon points="0,-18 -5,-8 -16,-8 -8,0 -12,12 0,5 12,12 8,0 16,-8 5,-8" />
+  </g>
+
+  <!-- Two small ornamental stars flanking divider -->
+  <text x="148" y="325" font-size="10" fill="url(#silver)" text-anchor="middle">✦</text>
+  <text x="352" y="325" font-size="10" fill="url(#silver)" text-anchor="middle">✦</text>
+</svg>

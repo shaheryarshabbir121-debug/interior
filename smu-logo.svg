@@ -1,137 +1,154 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="500" height="500">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 420" width="700" height="420">
   <defs>
-    <!-- Metallic silver gradient -->
-    <linearGradient id="silver" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%"   stop-color="#e8e8e8"/>
-      <stop offset="40%"  stop-color="#c0c0c0"/>
-      <stop offset="60%"  stop-color="#a8a8a8"/>
-      <stop offset="100%" stop-color="#d4d4d4"/>
+    <linearGradient id="navy-shade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#1f3880"/>
+      <stop offset="100%" stop-color="#0f1f50"/>
     </linearGradient>
-    <!-- Deep forest green gradient for crest body -->
-    <linearGradient id="green" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%"   stop-color="#1e3d2f"/>
-      <stop offset="100%" stop-color="#0d2318"/>
+    <linearGradient id="gold-shine" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#e0bb6a"/>
+      <stop offset="50%"  stop-color="#c9a84c"/>
+      <stop offset="100%" stop-color="#a8841e"/>
     </linearGradient>
-    <!-- Path for circular text -->
-    <path id="topArc"
-      d="M 250,250
-         m -170,0
-         a 170,170 0 1,1 340,0"
-      fill="none"/>
-    <path id="bottomArc"
-      d="M 250,250
-         m -170,0
-         a 170,170 0 0,0 340,0"
-      fill="none"/>
+    <!-- M letter interior triangle for building clip -->
+    <clipPath id="m-notch-clip">
+      <polygon points="296,92 350,193 404,92"/>
+    </clipPath>
   </defs>
 
   <!-- White background -->
-  <rect width="500" height="500" fill="#ffffff"/>
+  <rect width="700" height="420" fill="#ffffff"/>
 
-  <!-- Outer ring / seal border -->
-  <circle cx="250" cy="250" r="220" fill="none" stroke="url(#silver)" stroke-width="6"/>
-  <circle cx="250" cy="250" r="210" fill="none" stroke="#1e3d2f"     stroke-width="2"/>
+  <!-- Top gold accent bar -->
+  <rect x="100" y="80" width="500" height="4" fill="url(#gold-shine)" rx="2"/>
 
-  <!-- Main crest body -->
-  <circle cx="250" cy="250" r="195" fill="url(#green)"/>
+  <!-- ================================================================
+       S  LETTER  (center ~x=148, y: 88–285)
+       Constructed as two stacked C-arcs forming a bold sans-serif S
+       ================================================================ -->
+  <!-- Top arc of S: opens right at top -->
+  <path d="
+    M 192,117
+    C 192,94  174,86  152,86
+    L 116,86
+    C  88,86   76,102  76,122
+    C  76,142  90,152 118,160
+    L 162,170
+    C 192,178 206,192 206,216
+    C 206,240 190,252 162,252
+    L 114,252
+    C  84,252  74,236  74,218
+  "
+  fill="none" stroke="url(#navy-shade)" stroke-width="30"
+  stroke-linecap="butt" stroke-linejoin="round"/>
 
-  <!-- Inner ring accent -->
-  <circle cx="250" cy="250" r="140" fill="none" stroke="url(#silver)" stroke-width="2.5"/>
+  <!-- ================================================================
+       M  LETTER  (center x=350, y: 88–285)
+       Filled polygon so we can clip buildings inside V-notch
+       ================================================================ -->
+  <!-- M outer shape (filled navy) -->
+  <polygon
+    points="255,285 255,88 350,200 445,88 445,285 415,285 415,106 350,218 285,106 285,285"
+    fill="url(#navy-shade)"/>
 
-  <!-- ============================================================
-       Interlocking SMU Monogram — scaled up, centered as a group
-       The group origin is the visual center of S+M+U combined.
-       S spans x: -162 to -62  (width ~100)
-       M spans x:  -56 to  56  (width ~112)
-       U spans x:   62 to 162  (width ~100)
-       Total width: 324 → center offset = 0
-       Height: -88 to +72 → vertical center = -8
-       Scale 1.35 applied to fill the crest nicely.
-       ============================================================ -->
-  <g transform="translate(250,248) scale(1.35)">
+  <!-- Buildings inside V-notch (navy, clipped to white triangle) -->
+  <g clip-path="url(#m-notch-clip)">
+    <!-- Sky background inside notch -->
+    <polygon points="296,92 350,193 404,92" fill="#f0f4ff"/>
 
-    <!-- === S === -->
-    <path d="
-      M -152,-44
-      Q -152,-70 -130,-70
-      L  -90,-70
-      Q  -70,-70 -70,-52
-      Q  -70,-34  -92,-34
-      L -116,-34
-      Q -144,-34 -144,-12
-      Q -144,  8 -116,  8
-      L  -78,  8
-      Q  -56,  8  -56, 28
-      Q  -56, 52  -82, 52
-      L -118, 52
-      Q -144, 52 -144, 30
-    " fill="none" stroke="url(#silver)" stroke-width="14"
-       stroke-linecap="square" stroke-linejoin="miter"/>
-    <line x1="-160" y1="-70" x2="-142" y2="-70" stroke="url(#silver)" stroke-width="5"/>
-    <line x1="-158" y1=" 30" x2="-130" y2=" 30" stroke="url(#silver)" stroke-width="5"/>
+    <!-- Building 1 (left) -->
+    <rect x="300" y="142" width="24" height="52" fill="url(#navy-shade)"/>
+    <!-- Windows B1 -->
+    <rect x="305" y="148" width="5" height="5" fill="#c9a84c"/>
+    <rect x="314" y="148" width="5" height="5" fill="#c9a84c"/>
+    <rect x="305" y="158" width="5" height="5" fill="#c9a84c"/>
+    <rect x="314" y="158" width="5" height="5" fill="#c9a84c"/>
 
-    <!-- === M === (centered at x=0) -->
-    <path d="
-      M -50,-70
-      L -50, 56
-      M -50,-70
-      L   0,-14
-      L  50,-70
-      M  50,-70
-      L  50, 56
-    " fill="none" stroke="url(#silver)" stroke-width="14"
-       stroke-linecap="square" stroke-linejoin="miter"/>
-    <line x1="-62" y1="-70" x2="-38" y2="-70" stroke="url(#silver)" stroke-width="5"/>
-    <line x1="-62" y1=" 56" x2="-38" y2=" 56" stroke="url(#silver)" stroke-width="5"/>
-    <line x1=" 38" y1="-70" x2=" 62" y2="-70" stroke="url(#silver)" stroke-width="5"/>
-    <line x1=" 38" y1=" 56" x2=" 62" y2=" 56" stroke="url(#silver)" stroke-width="5"/>
+    <!-- Building 2 (left-center) -->
+    <rect x="326" y="118" width="20" height="76" fill="url(#navy-shade)"/>
+    <!-- Flat roof detail -->
+    <rect x="324" y="115" width="24" height="5" fill="url(#navy-shade)"/>
+    <!-- Windows B2 -->
+    <rect x="330" y="125" width="4" height="5" fill="#c9a84c"/>
+    <rect x="338" y="125" width="4" height="5" fill="#c9a84c"/>
+    <rect x="330" y="135" width="4" height="5" fill="#c9a84c"/>
+    <rect x="338" y="135" width="4" height="5" fill="#c9a84c"/>
+    <rect x="330" y="145" width="4" height="5" fill="#c9a84c"/>
+    <rect x="338" y="145" width="4" height="5" fill="#c9a84c"/>
 
-    <!-- === U === -->
-    <path d="
-      M  62,-70
-      L  62, 12
-      Q  62, 56 112, 56
-      Q 162, 56 162, 12
-      L 162,-70
-    " fill="none" stroke="url(#silver)" stroke-width="14"
-       stroke-linecap="square" stroke-linejoin="miter"/>
-    <line x1=" 50" y1="-70" x2=" 74" y2="-70" stroke="url(#silver)" stroke-width="5"/>
-    <line x1="150" y1="-70" x2="174" y2="-70" stroke="url(#silver)" stroke-width="5"/>
-    <line x1=" 90" y1=" 56" x2="134" y2=" 56" stroke="url(#silver)" stroke-width="5"/>
+    <!-- Building 3 (center, tallest) -->
+    <rect x="340" y="100" width="20" height="94" fill="url(#navy-shade)"/>
+    <rect x="348" y="96"  width="6"  height="6"  fill="url(#navy-shade)"/>
+    <!-- Windows B3 -->
+    <rect x="344" y="108" width="4" height="4" fill="#c9a84c"/>
+    <rect x="352" y="108" width="4" height="4" fill="#c9a84c"/>
+    <rect x="344" y="117" width="4" height="4" fill="#c9a84c"/>
+    <rect x="352" y="117" width="4" height="4" fill="#c9a84c"/>
+    <rect x="344" y="126" width="4" height="4" fill="#c9a84c"/>
+    <rect x="352" y="126" width="4" height="4" fill="#c9a84c"/>
+    <rect x="344" y="135" width="4" height="4" fill="#c9a84c"/>
+    <rect x="352" y="135" width="4" height="4" fill="#c9a84c"/>
 
+    <!-- Building 4 (right-center) -->
+    <rect x="354" y="122" width="20" height="72" fill="url(#navy-shade)"/>
+    <rect x="352" y="118" width="24" height="5"  fill="url(#navy-shade)"/>
+    <!-- Windows B4 -->
+    <rect x="358" y="128" width="4" height="5" fill="#c9a84c"/>
+    <rect x="366" y="128" width="4" height="5" fill="#c9a84c"/>
+    <rect x="358" y="138" width="4" height="5" fill="#c9a84c"/>
+    <rect x="366" y="138" width="4" height="5" fill="#c9a84c"/>
+    <rect x="358" y="148" width="4" height="5" fill="#c9a84c"/>
+    <rect x="366" y="148" width="4" height="5" fill="#c9a84c"/>
+
+    <!-- Building 5 (right) -->
+    <rect x="376" y="148" width="22" height="46" fill="url(#navy-shade)"/>
+    <!-- Windows B5 -->
+    <rect x="380" y="154" width="5" height="5" fill="#c9a84c"/>
+    <rect x="389" y="154" width="5" height="5" fill="#c9a84c"/>
+    <rect x="380" y="164" width="5" height="5" fill="#c9a84c"/>
+    <rect x="389" y="164" width="5" height="5" fill="#c9a84c"/>
+
+    <!-- Gold horizon line at building bases -->
+    <line x1="296" y1="194" x2="404" y2="194" stroke="#c9a84c" stroke-width="2"/>
   </g>
 
-  <!-- Thin horizontal divider line under monogram -->
-  <line x1="140" y1="328" x2="360" y2="328" stroke="url(#silver)" stroke-width="1.5"/>
+  <!-- ================================================================
+       U  LETTER  (center ~x=556, y: 88–285)
+       Bold U with gold accent arc inside bowl
+       ================================================================ -->
+  <path d="M 508,88 L 508,222 C 508,264 530,285 558,285 C 586,285 608,264 608,222 L 608,88"
+    fill="none" stroke="url(#navy-shade)" stroke-width="30" stroke-linecap="butt"/>
 
-  <!-- ============================================================
-       Circular text — "STRATEGIC MANAGEMENT UNIT"
-       ============================================================ -->
+  <!-- Gold reflection arc inside U bowl -->
+  <path d="M 527,222 C 527,254 541,268 558,268 C 575,268 589,254 589,222"
+    fill="none" stroke="url(#gold-shine)" stroke-width="7" stroke-linecap="round"/>
 
-  <!-- Top arc text -->
-  <text font-family="Georgia, 'Times New Roman', serif"
-        font-size="17" font-weight="700"
-        fill="url(#silver)" letter-spacing="3.5">
-    <textPath href="#topArc" startOffset="4%">
-      STRATEGIC MANAGEMENT UNIT
-    </textPath>
-  </text>
+  <!-- Subtle inner gold fill in U bottom -->
+  <path d="M 527,240 C 527,262 541,275 558,275 C 575,275 589,262 589,240 L 589,270 C 589,280 575,290 558,290 C 541,290 527,280 527,270 Z"
+    fill="#c9a84c" opacity="0.12"/>
 
-  <!-- Bottom arc — decorative dots / rule -->
-  <text font-family="Georgia, 'Times New Roman', serif"
-        font-size="14" font-weight="400"
-        fill="url(#silver)" letter-spacing="8">
-    <textPath href="#bottomArc" startOffset="10%">
-      ✦ · · · · · · · · · · · ✦
-    </textPath>
-  </text>
+  <!-- ================================================================
+       TAGLINE + DECORATIVE RULES
+       ================================================================ -->
 
-  <!-- Small crown / crest ornament above monogram -->
-  <g transform="translate(250,120)" fill="url(#silver)">
-    <polygon points="0,-18 -5,-8 -16,-8 -8,0 -12,12 0,5 12,12 8,0 16,-8 5,-8" />
-  </g>
+  <!-- Gold rule line -->
+  <line x1="100" y1="308" x2="600" y2="308" stroke="url(#gold-shine)" stroke-width="1.5"/>
 
-  <!-- Two small ornamental stars flanking divider -->
-  <text x="148" y="325" font-size="10" fill="url(#silver)" text-anchor="middle">✦</text>
-  <text x="352" y="325" font-size="10" fill="url(#silver)" text-anchor="middle">✦</text>
+  <!-- STRATEGIC MANAGEMENT UNIT -->
+  <text
+    x="350" y="338"
+    text-anchor="middle"
+    font-family="Georgia, 'Times New Roman', serif"
+    font-size="18.5"
+    font-weight="700"
+    letter-spacing="5.5"
+    fill="url(#navy-shade)">STRATEGIC MANAGEMENT UNIT</text>
+
+  <!-- Bottom gold rule -->
+  <line x1="100" y1="356" x2="600" y2="356" stroke="url(#gold-shine)" stroke-width="1.5"/>
+
+  <!-- Small gold diamond ornaments flanking tagline -->
+  <polygon points="340,338 345,332 350,338 345,344" fill="none"/>
+  <polygon points="88,332  94,326  100,332 94,338" fill="#c9a84c" opacity="0.7"/>
+  <polygon points="600,332 606,326 612,332 606,338" fill="#c9a84c" opacity="0.7"/>
+
 </svg>
